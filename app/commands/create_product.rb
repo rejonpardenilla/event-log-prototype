@@ -18,7 +18,6 @@ class CreateProduct
   private
 
   def notify
-    puts 'notifying'
-    # ActiveSupport::Notifications.instrument('CreateProduct', data: source_data)
+    ActiveSupport::Notifications.instrument('create_product.command', source_data: source_data, entity_id: product&.id)
   end
 end
