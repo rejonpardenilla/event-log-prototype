@@ -1,14 +1,24 @@
-class CreateProduct < Command
-  after :call, :notify
+class CreateProduct
+  attr_accessor :source_data
+  attr_accessor :product
 
-  def call(data)
-    @data = data
-    Product.create!(data)
+  def initialize(source_data)
+    @source_data = source_data
+    @product = nil
+  end
+
+  def execute
+    @product = Product.create!(source_data)
+
+    notify
+
+    product
   end
 
   private
 
   def notify
-    ActiveSupport::Notifications.instrument('CreateProduct', data: @data)
+    puts 'notifying'
+    # ActiveSupport::Notifications.instrument('CreateProduct', data: source_data)
   end
 end
